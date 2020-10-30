@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Seeder;
 
+use Illuminate\Support\Facades\Schema;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -11,22 +13,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        Schema::disableForeignKeyConstraints();
 
-       $this->call(UserTableSeeder::class);
+        $this->call([
+            UserTableSeeder::class,
+            ProfileTableSeeder::class,
+            CategoryTableSeeder::class,
+            ArticleTableSeeder::class,
+            CommentTableSeeder::class,
+        ]);
 
-       $this->call(ArticleTableSeeder::class);
-
-       $this->call(CategoryTableSeeder::class);
-
-        $this->call(CommentTableSeeder::class);
-        $this->call(ProfileTableSeeder::class);
-
-
-
-
-
-
-
-
+        Schema::enableForeignKeyConstraints();
     }
 }

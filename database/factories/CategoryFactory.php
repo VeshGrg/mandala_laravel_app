@@ -7,7 +7,13 @@ use Faker\Generator as Faker;
 
 $factory->define(Category::class, function (Faker $faker) {
     return [
-        'title'=> $faker->randomElement(['Sport and Fitness','Medical','IT',
-            'Political','Games','other'])
+        'title' => $faker->randomElement([
+            'Sport and Fitness', 
+            'Medical', 
+            'IT',
+            'Political', 
+            'Games', 
+            'other'
+        ])
     ];
 });

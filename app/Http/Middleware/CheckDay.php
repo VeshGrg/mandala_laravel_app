@@ -15,10 +15,10 @@ class CheckDay
      */
     public function handle($request, Closure $next)
     {
-       $today= date('D');
-       if($today ='Fri'){
-           return redirect()->to('system-closed');
-       }
+        $today = date('D');
+        if ($today = 'Fri') {
+            return redirect()->to('system-closed');
+        }
         return $next($request);
     }
 }

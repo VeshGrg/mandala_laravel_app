@@ -7,9 +7,8 @@ use Faker\Generator as Faker;
 
 $factory->define(Article::class, function (Faker $faker) {
     return [
-        'user_id'=>$faker->numberBetween(1,9),
-        'title'=> $faker->sentence,
-        'content'=> $faker->paragraph,
-
+        'user_id' => $faker->numberBetween(1, 9),
+        'title'   => $faker->sentence,
+        'content' => $faker->paragraph,
     ];
 });

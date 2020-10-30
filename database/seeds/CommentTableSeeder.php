@@ -1,7 +1,9 @@
 <?php
 
+use App\Article;
 use Illuminate\Database\Seeder;
 use App\Comment;
+
 class CommentTableSeeder extends Seeder
 {
     /**
@@ -11,6 +13,10 @@ class CommentTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Comment::class, 4)->create();
+        Comment::truncate();
+        
+        Article::all()->each(function ($article) {
+            $article->comments()->saveMany(factory(Comment::class, 3)->make());
+        });
     }
 }

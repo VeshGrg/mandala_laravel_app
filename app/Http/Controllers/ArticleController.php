@@ -9,9 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
-    public function construct(){
+    public function construct()
+    {
         $this->middleware('auth')->except('show');
     }
+    
     /**
      * Display a listing of the resource.
      *
@@ -19,8 +21,8 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles= Article::orderBy('id','DESC')->get();
-        return view('articles.allarticles',compact('articles'));
+        $articles = Article::orderBy('id', 'DESC')->get();
+        return view('articles.allarticles', compact('articles'));
     }
 
     /**
@@ -30,7 +32,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        $categories= Category::select('title','id')->get();
+        $categories = Category::select('title', 'id')->get();
         return view('articles.create', compact('categories'));
     }
 
@@ -42,17 +44,15 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-       $request->validate([
-           'title'=>'max:199 | min:2 | required',
-              'content'=>' max:500 | min:40 |required',
-               'categories'=> 'required'
-            ]
-
-        );
-      $user = Auth::user();
-      $sort = array_values($request->categories);
-      $article= $user->articles()->create($request->except('categories'));
-      $article->categories()->attach($sort);
+        $request->validate([
+            'title' => 'max:199 | min:2 | required',
+            'content' => ' max:500 | min:40 |required',
+            'categories' => 'required'
+        ]);
+        $user = Auth::user();
+        $sort = array_values($request->categories);
+        $article = $user->articles()->create($request->except('categories'));
+        $article->categories()->attach($sort);
 
         return redirect()->to('/home');
     }
@@ -78,13 +78,13 @@ class ArticleController extends Controller
     public function edit(Article $article)
     {
 
-        if(Auth::id() != $article->user_id){
+        if (Auth::id() != $article->user_id) {
             return abort(401);
         }
 
-        $categories= Category::pluck('title','id');
-        $articlecategories= $article->categories()->pluck('id')->toArray();
-        return view('articles.edit', compact('categories','article','articlecategories'));
+        $categories = Category::pluck('title', 'id');
+        $articlecategories = $article->categories()->pluck('id')->toArray();
+        return view('articles.edit', compact('categories', 'article', 'articlecategories'));
     }
 
     /**
@@ -97,21 +97,19 @@ class ArticleController extends Controller
     public function update(Request $request, Article $article)
     {
 
-        if(Auth::id() != $article->user_id) {
+        if (Auth::id() != $article->user_id) {
             return abort(401);
         }
 
         $request->validate([
-            'title'=>'max:100 | min:2 |required',
-            'content'=>' max:500 | min:40 |required',
-            'categories'=> 'required'
+            'title' => 'max:100 | min:2 |required',
+            'content' => ' max:500 | min:40 |required',
+            'categories' => 'required'
         ]);
 
         $article->update($request->all());
         $article->categories()->sync($request->categories);
-       return redirect()->back();
-
-
+        return redirect()->back();
     }
 
     /**
@@ -122,7 +120,7 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        if(Auth::id() != $article->user_id){
+        if (Auth::id() != $article->user_id) {
             return abort(401);
         }
         $article->delete();
