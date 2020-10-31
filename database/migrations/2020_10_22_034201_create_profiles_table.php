@@ -19,10 +19,10 @@ class CreateProfilesTable extends Migration
             $table->text('bio');
 
             $table->string('birthday');
-            $table->enum('gender', ['male', 'female']);
+            $table->enum('gender', ['male', 'female', 'other']);
             $table->string('name');
             $table->string('email')->unique();
-            
+
             $table->timestamps();
 
             $table->foreign('user_id')
