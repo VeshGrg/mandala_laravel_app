@@ -3,7 +3,6 @@
 use Illuminate\Database\Seeder;
 use App\Article;
 use App\Category;
-use App\User;
 
 class ArticleTableSeeder extends Seeder
 {
