@@ -13,7 +13,7 @@ $factory->define(Category::class, function (Faker $faker) {
             'IT',
             'Political', 
             'Games', 
-            'other'
+            'Other'
         ])
     ];
 });

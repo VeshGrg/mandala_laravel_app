@@ -20,8 +20,6 @@ class CreateProfilesTable extends Migration
 
             $table->string('birthday');
             $table->enum('gender', ['male', 'female']);
-            $table->string('name');
-            $table->string('email')->unique();
             
             $table->timestamps();
 

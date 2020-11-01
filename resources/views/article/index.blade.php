@@ -1,21 +1,20 @@
 @extends('layouts.app')
 
-@section('title', 'Homepage')
+@section('title', 'All Articles')
 
 @section('content')
     <div class="row mb-2">
 
         <div class="col-12">
             <h3 class="pb-3 mb-4 font-italic border-bottom">
-                Latest Blogs
+                All Articles
             </h3>
         </div>
 
         @each('partials.post-card', $articles, 'article')
 
-        <div class="col-12 mb-4 text-right">
-            <a href="{{ route('articles.index') }}">See All Other Blogs</a>
+        <div class="col-12">
+            {{ $articles->links() }}
         </div>
-
     </div>
 @endsection

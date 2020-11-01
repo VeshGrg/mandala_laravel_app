@@ -15,6 +15,22 @@ class UserTableSeeder extends Seeder
     {
         User::truncate();
 
-        factory(App\User::class, 10)->create();
+        // Create Students
+        factory(App\User::class, 10)
+            ->create()
+            ->each(function ($user) {
+                $user->assignRole('student');
+                $user->givePermissionTo('change profile details');
+                $user->givePermissionTo('create comments');
+            });
+
+
+        // Create new admin user
+        factory(User::class)
+            ->create([
+                'name' => 'Admin',
+                'email' => 'admin@admin.com',
+            ])
+            ->assignRole('admin');
     }
 }

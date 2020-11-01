@@ -7,11 +7,15 @@ use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\Gate;
+
 class ArticleController extends Controller
 {
     public function construct()
     {
         $this->middleware('auth')->except('show');
+
+        $this->authorizeResource(Article::class, 'article');
     }
     
     /**
@@ -21,8 +25,9 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::orderBy('id', 'DESC')->get();
-        return view('articles.allarticles', compact('articles'));
+        $articles = Article::latest()->paginate(10);
+
+        return view('article.index', compact('articles'));
     }
 
     /**
@@ -32,8 +37,11 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        $categories = Category::select('title', 'id')->get();
-        return view('articles.create', compact('categories'));
+        // Gate::authorize('create');
+
+        $categories = Category::all();
+
+        return view('article.create', compact('categories'));
     }
 
     /**
@@ -45,16 +53,16 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'max:199 | min:2 | required',
-            'content' => ' max:500 | min:40 |required',
+            'title'      => 'required|max:199|min:2',
+            'content'    => 'required|max:500|min:40',
             'categories' => 'required'
         ]);
-        $user = Auth::user();
-        $sort = array_values($request->categories);
-        $article = $user->articles()->create($request->except('categories'));
-        $article->categories()->attach($sort);
 
-        return redirect()->to('/home');
+        $article = Auth::user()->articles()->create($request->except('categories'));
+
+        $article->categories()->attach($request->categories);
+
+        return redirect()->route('dashboard');
     }
 
     /**
@@ -65,8 +73,7 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-
-        return view('articles.display', ['article' => $article]);
+        return view('article.show', compact('article'));
     }
 
     /**
@@ -77,14 +84,11 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
+        $categories = Category::all();
 
-        if (Auth::id() != $article->user_id) {
-            return abort(401);
-        }
-
-        $categories = Category::pluck('title', 'id');
         $articlecategories = $article->categories()->pluck('id')->toArray();
-        return view('articles.edit', compact('categories', 'article', 'articlecategories'));
+
+        return view('article.edit', compact('categories', 'article', 'articlecategories'));
     }
 
     /**
@@ -96,20 +100,17 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
-
-        if (Auth::id() != $article->user_id) {
-            return abort(401);
-        }
-
         $request->validate([
-            'title' => 'max:100 | min:2 |required',
-            'content' => ' max:500 | min:40 |required',
+            'title'      => 'required|max:100|min:2',
+            'content'    => 'required|max:500|min:40',
             'categories' => 'required'
         ]);
 
-        $article->update($request->all());
+        $article->update($request->only(['title', 'content']));
+
         $article->categories()->sync($request->categories);
-        return redirect()->back();
+
+        return redirect()->route('dashboard');
     }
 
     /**
@@ -120,10 +121,8 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        if (Auth::id() != $article->user_id) {
-            return abort(401);
-        }
         $article->delete();
+
         return redirect()->back();
     }
 }

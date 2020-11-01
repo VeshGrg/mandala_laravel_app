@@ -10,6 +10,10 @@ class Article extends Model
         'content', 'title', 'user_id',
     ];
 
+    protected $with = [
+        'categories'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -23,5 +27,10 @@ class Article extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public static function getHomeArticles(int $take = 3)
+    {
+        return static::take($take)->latest()->get();
     }
 }

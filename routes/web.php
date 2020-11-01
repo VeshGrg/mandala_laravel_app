@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,32 +14,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', function () {
-   // return view('welcome');
-//});
-Route::get("/",'PageController@show')->name('show');
-
-
-//Route::get("contact",'PageController@contact');
-//Route::post("contact",'PageController@storeContact');
-//Route::get("about",'PageController@about');
-//Route::get('clear-my-name', 'PageController@clearName');
-//Route::put('contact',function (){
-  //  echo 'put or replace';
-
-
-//});
-
-Route::get('user/{id?}/email/{email?}',function ($id=null , $email= null){
- echo 'user id is'. $id . 'and email is: '. $email;
-});
-
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get("/",'HomeController@index')->name('home');
 Route::resource('articles','ArticleController');
-Route::post('comments','CommentController@store')->name('comments.store');
+Route::resource('categories','CategoryController')->except(['show']);
+Route::resource('comments','CommentController')->only(['store', 'delete']);
+
+Route::get('dashboard', 'DashboardController@index')->name('dashboard');
+
+Route::get('my-profile', 'ProfileController@index')->name('profile');
+Route::post('my-profile', 'ProfileController@updateMainDetails')->name('profile');
+Route::patch('my-profile', 'ProfileController@updateProfileDetails')->name('profile');
+Route::post('change-password', 'ProfileController@changePassword')->name('change.password');
+
+
+// Route::get("contact",'PageController@contact');
+// Route::post("contact",'PageController@storeContact');
+// Route::get("about",'PageController@about');
+// Route::get('clear-my-name', 'PageController@clearName');
+// Route::put('contact',function (){
+//    echo 'put or replace';
+// });
+
+
+
 
 
 

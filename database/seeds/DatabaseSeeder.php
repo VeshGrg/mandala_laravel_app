@@ -16,11 +16,12 @@ class DatabaseSeeder extends Seeder
         Schema::disableForeignKeyConstraints();
 
         $this->call([
+            RoleTableSeeder::class,
             UserTableSeeder::class,
             ProfileTableSeeder::class,
             CategoryTableSeeder::class,
             ArticleTableSeeder::class,
-            CommentTableSeeder::class,
+            CommentTableSeeder::class
         ]);
 
         Schema::enableForeignKeyConstraints();

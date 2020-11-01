@@ -6,10 +6,12 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class
-User extends Authenticatable
+use App\Traits\HasProfilePhoto;
+use Spatie\Permission\Traits\HasRoles;
+
+class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasRoles, HasProfilePhoto;
 
     /**
      * The attributes that are mass assignable.
@@ -38,6 +40,15 @@ User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'profile_photo_url',
+    ];
+
     public function articles()
     {
         return $this->hasMany(Article::class);
@@ -45,7 +56,7 @@ User extends Authenticatable
 
     public function profile()
     {
-        return $this->hasOne(Profile::class);
+        return $this->hasOne(Profile::class)->withDefault();
     }
 
     public function comments()
