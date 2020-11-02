@@ -5,10 +5,13 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
-use App\Article;
-use App\Category;
+use App\Models\Article;
+use App\Models\Category;
+use App\Models\Comment;
+
 use App\Policies\ArticlePolicy;
 use App\Policies\CategoryPolicy;
+use App\Policies\CommentPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -20,6 +23,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Article::class => ArticlePolicy::class,
         Category::class => CategoryPolicy::class,
+        Comment::class => CommentPolicy::class,
     ];
 
     /**

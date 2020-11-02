@@ -18,6 +18,7 @@ class CreateArticlesTable extends Migration
             $table->foreignId('user_id');
             $table->string('title');
             $table->text('content')->nullable();
+            $table->text('featured_image')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')

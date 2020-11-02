@@ -1,6 +1,6 @@
 <?php
 
-use App\User;
+use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -22,11 +22,6 @@ class RoleTableSeeder extends Seeder
         DB::table('roles')->truncate();
         DB::table('permissions')->truncate();
 
-        $roles = collect([
-            ['name' => 'admin'],
-            ['name' => 'student']
-        ]);
-
         $permissions = collect([
             ['name' => 'view dashboard'],
             ['name' => 'change profile details'],
@@ -39,12 +34,18 @@ class RoleTableSeeder extends Seeder
             ['name' => 'create comments']
         ]);
 
-        $roles = $roles->map(function ($role) {
-            return Role::create($role);
-        });
+        $adminRole = Role::create(['name' => 'admin']);
+        $studentRole = Role::create(['name' => 'student']);
 
         $permissions = $permissions->map(function ($permission) {
             return Permission::create($permission);
         });
+
+        $studentRole->syncPermissions(
+            $permissions->whereIn('name', [
+                'change profile details',
+                'create comments',
+            ])
+        );
     }
 }

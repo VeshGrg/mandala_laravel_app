@@ -3,24 +3,32 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Comment;
+use App\Models\Comment;
+use App\Events\NewCommentCreated;
+use App\Http\Requests\CommentStoreRequest;
 
 class CommentController extends Controller
 {
-    public function store(Request $request)
+    public function __construct()
     {
-        $request->validate([
-            'article_id' => 'required|exists:articles,id',
-            'content'    => 'required'
-        ]);
+        $this->middleware('auth');
 
-        Comment::create([
+        $this->authorizeResource(Comment::class, 'comment');
+    }
+
+    public function store(CommentStoreRequest $request)
+    {
+        $comment = Comment::create([
             'article_id' => $request->article_id,
             'user_id'    => auth()->id(),
             'content'    => $request->content
         ]);
 
-        return redirect()->back();
+        // $comment->article->user->notify(new NewComment($comment));
+
+        return response()->json(
+            view('partials.comment', compact('comment'))->render()
+        );
     }
 
     public function destroy(Comment $comment)

@@ -11,7 +11,7 @@
             </h3>
         </div>
 
-        @each('partials.post-card', $articles, 'article')
+        @each('partials.article-card', $articles, 'article')
 
         <div class="col-12">
             {{ $articles->links() }}

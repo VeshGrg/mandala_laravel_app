@@ -1,8 +1,6 @@
 <?php
 
-namespace App;
-
-use Illuminate\Database\Eloquent\Model;
+namespace App\Models;
 
 class Profile extends Model
 {
@@ -13,8 +11,17 @@ class Profile extends Model
         'gender',
     ];
 
+    protected $dates = [
+        'birthday'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getGenderAttribute($value)
+    {
+        return ucfirst($value);
     }
 }

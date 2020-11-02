@@ -19,7 +19,8 @@ Auth::routes();
 Route::get("/",'HomeController@index')->name('home');
 Route::resource('articles','ArticleController');
 Route::resource('categories','CategoryController')->except(['show']);
-Route::resource('comments','CommentController')->only(['store', 'delete']);
+Route::resource('comments','CommentController')->only(['store']);
+Route::resource('users','UserController')->except(['show']);
 
 Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 

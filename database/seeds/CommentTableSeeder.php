@@ -1,8 +1,8 @@
 <?php
 
-use App\Article;
+use App\Models\Article;
 use Illuminate\Database\Seeder;
-use App\Comment;
+use App\Models\Comment;
 
 class CommentTableSeeder extends Seeder
 {

@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Article;
-use App\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-use Illuminate\Support\Facades\Gate;
+use App\Models\Article;
+use App\Models\Category;
+use App\Http\Requests\ArticleStoreRequest;
+use App\Services\ExchangeRateService;
 
 class ArticleController extends Controller
 {
-    public function construct()
+    public function __construct()
     {
-        $this->middleware('auth')->except('show');
+        $this->middleware('auth')->except(['show', 'index']);
 
-        $this->authorizeResource(Article::class, 'article');
+        $this->authorizeResource(Article::class);
     }
     
     /**
@@ -37,8 +37,6 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        // Gate::authorize('create');
-
         $categories = Category::all();
 
         return view('article.create', compact('categories'));
@@ -50,17 +48,17 @@ class ArticleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ArticleStoreRequest $request)
     {
-        $request->validate([
-            'title'      => 'required|max:199|min:2',
-            'content'    => 'required|max:500|min:40',
-            'categories' => 'required'
-        ]);
+        $article = auth()->user()->articles()->create($request->only(['title', 'content']));
 
-        $article = Auth::user()->articles()->create($request->except('categories'));
-
-        $article->categories()->attach($request->categories);
+        $article->categories()->attach(request()->categories);
+        
+        if(request()->hasFile('featured_image')) {
+            $article->updateFeaturedImage(
+                request()->featured_image
+            );
+        }
 
         return redirect()->route('dashboard');
     }
@@ -68,18 +66,22 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Article  $article
+     * @param  \App\Models\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function show(Article $article)
+    public function show(Article $article, ExchangeRateService $service)
     {
-        return view('article.show', compact('article'));
+        $rates = $service->getRates();
+
+        views($article)->record();
+
+        return view('article.show', compact('article', 'rates'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Article  $article
+     * @param  \App\Models\Article  $article
      * @return \Illuminate\Http\Response
      */
     public function edit(Article $article)
@@ -95,20 +97,20 @@ class ArticleController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Article  $article
+     * @param  \App\Models\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Article $article)
-    {
-        $request->validate([
-            'title'      => 'required|max:100|min:2',
-            'content'    => 'required|max:500|min:40',
-            'categories' => 'required'
-        ]);
-
+    public function update(ArticleStoreRequest $request, Article $article)
+    { 
         $article->update($request->only(['title', 'content']));
 
-        $article->categories()->sync($request->categories);
+        $article->categories()->sync(request()->categories);
+
+        if(request()->hasFile('featured_image')) {
+            $article->updateFeaturedImage(
+                request()->featured_image
+            );
+        }
 
         return redirect()->route('dashboard');
     }
@@ -116,7 +118,7 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Article  $article
+     * @param  \App\Models\Article  $article
      * @return \Illuminate\Http\Response
      */
     public function destroy(Article $article)

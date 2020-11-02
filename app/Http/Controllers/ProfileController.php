@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Profile;
+use App\Http\Requests\UpdateMainDetailsRequest;
+use App\Http\Requests\ChangePasswordRequest;
+use App\Http\Requests\UpdateProfileDetails;
+
+use App\Models\Profile;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class ProfileController extends Controller
 {
@@ -17,52 +22,32 @@ class ProfileController extends Controller
         return view('profile.index', compact('user'));
     }
 
-    public function updateMainDetails(Request $request)
+    public function updateMainDetails(UpdateMainDetailsRequest $request)
     {
-        $request->validate([
-            'name'  => 'required',
-            'email' => 'required|email',
-            'image' => 'image|nullable'
-        ]);
-
         $user = auth()->user();
 
-        $user->update([
-            'name'  => $request->name,
-            'email' => $request->email
-        ]);
+        $user->update($request->validated());
 
         if($request->hasFile('image')) {
             $user->updateProfilePhoto($request->image);
-        } 
+        }
 
         return redirect()
             ->route('profile')
             ->withSuccess('Main Details succesfully updated.');
     }
 
-    public function updateProfileDetails(Request $request)
+    public function updateProfileDetails(UpdateProfileDetails $request)
     {
-        $validated = $request->validate([
-            'birthday' => 'date|nullable',
-            'gender'   => 'in:male,female|nullable',
-            'bio'      => 'string|nullable'
-        ]);
-
-        Profile::updateOrCreate(['user_id' => auth()->id()], $validated);
+        Profile::updateOrCreate(['user_id' => auth()->id()], $request->validated());
 
         return redirect()
             ->route('profile')
             ->withSuccess('Main Details succesfully updated.');
     }
 
-    public function changePassword(Request $request)
+    public function changePassword(ChangePasswordRequest $request)
     {
-        $request->validate([
-            'old_password' => 'required',
-            'new_password' => 'required|confirmed|min:2'
-        ]);
-
         $user = auth()->user();
 
         if (!Hash::check($request->old_password, $user->password)) {

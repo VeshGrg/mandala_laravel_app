@@ -5,7 +5,7 @@
 use App\Model;
 use Faker\Generator as Faker;
 
-$factory->define(\App\Profile::class, function (Faker $faker) {
+$factory->define(\App\Models\Profile::class, function (Faker $faker) {
     $genders = ['male', 'female'];
 
     return [

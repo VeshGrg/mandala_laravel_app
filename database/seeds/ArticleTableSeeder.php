@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Article;
-use App\Category;
+use App\Models\Article;
+use App\Models\Category;
 
 class ArticleTableSeeder extends Seeder
 {
@@ -13,6 +13,8 @@ class ArticleTableSeeder extends Seeder
      */
     public function run()
     {
+        Article::truncate();
+
         Category::all()->each(function ($category) {
 
             $articles = factory(Article::class, 10)->create();

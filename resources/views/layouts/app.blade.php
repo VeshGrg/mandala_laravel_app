@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }} | @yield('title') </title>
+    <title>@hasSection('title') @yield('title') - @endif {{ config('app.name', 'Laravel') }} </title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 
     <!-- JS, Popper.js, and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
@@ -34,12 +34,18 @@
 
         <main class="py-4 container">
             @if($errors->any())
-                <div class="alert alert-warning">
-                    <ul>
+                <div class="alert alert-warning alert-dismissible fade show mb-4" role="alert">
+                    <ul class="mb-0">
                         @foreach($errors->all() as $error)
                             <li>{{$error}}</li>
                         @endforeach
                     </ul>
+                    <button type="button"
+                        class="close"
+                        data-dismiss="alert"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
             @endif
 

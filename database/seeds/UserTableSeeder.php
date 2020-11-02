@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-use App\User;
+use App\Models\User;
 
 class UserTableSeeder extends Seeder
 {
@@ -16,13 +16,10 @@ class UserTableSeeder extends Seeder
         User::truncate();
 
         // Create Students
-        factory(App\User::class, 10)
+        factory(App\Models\User::class, 10)
             ->create()
-            ->each(function ($user) {
-                $user->assignRole('student');
-                $user->givePermissionTo('change profile details');
-                $user->givePermissionTo('create comments');
-            });
+            ->each
+            ->assignRole('student');
 
 
         // Create new admin user

@@ -15,4 +15,28 @@ $(function() {
             }
         });
     }
+
+    if(exists('#comment-form')) {
+        $('#comment-form').submit(function(e){
+            e.preventDefault();
+
+            var formData = new FormData(this);
+
+            $.post(this.action, {
+                content: formData.get('content'),
+                _token: formData.get('_token'),
+                article_id: formData.get('article_id'),
+            })
+            .then(response => {
+                $('.comment-listing').append(response);
+            })
+            .catch(error => {
+                alert('Something went wrong!');
+                console.log(error);
+            })
+            .always(() => {
+                this.reset();
+            });
+        });
+    }
 });

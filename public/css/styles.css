@@ -163,6 +163,11 @@ h6 {
 
 
 /** Profile Details */
-.profile-img {
+.profile-img, .featured-image {
     object-fit: cover!important;
+}
+
+.categories-checkbox {
+    height: 100px;
+    overflow: auto;
 }

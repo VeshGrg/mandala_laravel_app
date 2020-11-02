@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Article;
+use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,7 +30,13 @@ class DashboardController extends Controller
         $articles = $user->hasRole('admin') ? Article::query() : $user->articles();
 
         $articles = $articles->latest()->paginate(10);
+
+        // Return total unique views count (based on visitor cookie)
+        $uniqueVisitors = views(Article::class)->unique()->count();
+
+        // Return total views count
+        $totalViews = views(Article::class)->count();
     
-        return view('dashboard', compact('articles'));
+        return view('dashboard', compact('articles', 'uniqueVisitors', 'totalViews'));
     }
 }

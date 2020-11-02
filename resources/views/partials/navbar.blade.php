@@ -53,23 +53,38 @@
                         <div class="dropdown-menu dropdown-menu-right"
                             aria-labelledby="navbarDropdown">
 
-                            <a class="dropdown-item"
-                                href="{{ route('dashboard') }}"
-                                v-pre>
-                                Dashboard
-                            </a>
+                            @can('view dashboard')
+                                <a class="dropdown-item"
+                                    href="{{ route('dashboard') }}"
+                                    v-pre>
+                                    Dashboard
+                                </a>
+                            @endcan
+                            
+                            @can('change profile details')
+                                <a class="dropdown-item"
+                                    href="{{ route('profile') }}"
+                                    v-pre>
+                                    My Profile
+                                </a>
+                            @endcan 
+                            
+                            @can('create categories')
+                                <a class="dropdown-item"
+                                    href="{{ route('categories.index') }}"
+                                    v-pre>
+                                    Categories
+                                </a>
+                            @endcan
 
-                            <a class="dropdown-item"
-                                href="{{ route('profile') }}"
-                                v-pre>
-                                My Profile
-                            </a>
-
-                            <a class="dropdown-item"
-                                href="{{ route('categories.index') }}"
-                                v-pre>
-                                Categories
-                            </a>
+                            @role('admin')
+                                <a class="dropdown-item"
+                                    href="{{ route('users.index') }}"
+                                    v-pre>
+                                    Manage Users
+                                </a>
+                            @endrole
+                            
 
                             <a class="dropdown-item"
                                 href="{{ route('logout') }}"

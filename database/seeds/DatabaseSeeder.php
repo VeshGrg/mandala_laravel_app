@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Model;
 use Illuminate\Database\Seeder;
 
 use Illuminate\Support\Facades\Schema;
@@ -14,6 +15,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Schema::disableForeignKeyConstraints();
+        Model::unsetEventDispatcher();
 
         $this->call([
             RoleTableSeeder::class,
