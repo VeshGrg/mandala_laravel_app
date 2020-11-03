@@ -24,8 +24,6 @@ class CommentController extends Controller
             'content'    => $request->content
         ]);
 
-        // $comment->article->user->notify(new NewComment($comment));
-
         return response()->json(
             view('partials.comment', compact('comment'))->render()
         );

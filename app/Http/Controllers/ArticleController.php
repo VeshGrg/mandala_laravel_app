@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Models\Article;
 use App\Models\Category;
 use App\Http\Requests\ArticleStoreRequest;
@@ -17,7 +15,7 @@ class ArticleController extends Controller
 
         $this->authorizeResource(Article::class);
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -53,7 +51,7 @@ class ArticleController extends Controller
         $article = auth()->user()->articles()->create($request->only(['title', 'content']));
 
         $article->categories()->attach(request()->categories);
-        
+
         if(request()->hasFile('featured_image')) {
             $article->updateFeaturedImage(
                 request()->featured_image
@@ -88,9 +86,9 @@ class ArticleController extends Controller
     {
         $categories = Category::all();
 
-        $articlecategories = $article->categories()->pluck('id')->toArray();
+        $articleCategories = $article->categories()->pluck('id')->toArray();
 
-        return view('article.edit', compact('categories', 'article', 'articlecategories'));
+        return view('article.edit', compact('categories', 'article', 'articleCategories'));
     }
 
     /**
@@ -101,7 +99,7 @@ class ArticleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(ArticleStoreRequest $request, Article $article)
-    { 
+    {
         $article->update($request->only(['title', 'content']));
 
         $article->categories()->sync(request()->categories);
