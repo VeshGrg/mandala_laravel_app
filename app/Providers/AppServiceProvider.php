@@ -23,6 +23,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view()->composer(['layouts.app'], function ($view){
+            $view->with('userData', [
+                'authenticated' => auth()->check(),
+                'user_id' => auth()->id(),
+            ]);
+        });
     }
 }

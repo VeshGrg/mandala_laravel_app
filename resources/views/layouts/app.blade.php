@@ -9,26 +9,18 @@
 
     <title>@hasSection('title') @yield('title') - @endif {{ config('app.name', 'Laravel') }} </title>
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
-    <!-- CSS only -->
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
-    <!-- JS, Popper.js, and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    @yield('header')
-
+    <script> window.Laravel = @json($userData); </script>
 </head>
 <body>
     <div id="app">
+
+        @include('partials.toast')
         
         @include('partials.navbar')
 
@@ -51,10 +43,7 @@
 
             @yield('content')
         </main>
-    </div>
 
-    <script src="{{ asset('js/custom.js') }}"></script>
-    
-    @yield('footer')
+    </div>
 </body>
 </html>

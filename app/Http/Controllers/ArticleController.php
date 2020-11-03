@@ -52,11 +52,11 @@ class ArticleController extends Controller
     {
         $article = auth()->user()->articles()->create($request->only(['title', 'content']));
 
-        $article->categories()->attach(request()->categories);
+        $article->categories()->attach($request->categories);
         
-        if(request()->hasFile('featured_image')) {
+        if($request->hasFile('featured_image')) {
             $article->updateFeaturedImage(
-                request()->featured_image
+                $request->featured_image
             );
         }
 
@@ -104,11 +104,11 @@ class ArticleController extends Controller
     { 
         $article->update($request->only(['title', 'content']));
 
-        $article->categories()->sync(request()->categories);
+        $article->categories()->sync($request->categories);
 
-        if(request()->hasFile('featured_image')) {
+        if($request->hasFile('featured_image')) {
             $article->updateFeaturedImage(
-                request()->featured_image
+                $request->featured_image
             );
         }
 

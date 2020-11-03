@@ -6,10 +6,11 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
 use App\Models\Comment;
 
-class NewComment extends Notification implements ShouldQueue
+class NewComment extends Notification
 {
     use Queueable;
 
@@ -51,6 +52,33 @@ class NewComment extends Notification implements ShouldQueue
     }
 
     /**
+     * Get the broadcastable representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return BroadcastMessage
+     */
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'article' => [
+                'url' => route('articles.show', $this->comment->article),
+                'title' => $this->comment->article->title,
+            ],
+            'message' => 'Hey, ya just got new comment!',
+        ]);
+    }
+
+    /**
+     * Get the type of the notification being broadcast.
+     *
+     * @return string
+     */
+    public function broadcastType()
+    {
+        return 'broadcast.comment';
+    }
+
+    /**
      * Get the array representation of the notification.
      *
      * @param  mixed  $notifiable
@@ -59,10 +87,7 @@ class NewComment extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'id' => $this->comment->id,
-            'comment' => $this->comment->content,
-            'user_name' => $this->comment->user->name,
-            'article' =>  $this->comment->article->title,
+            // 
         ];
     }
 }

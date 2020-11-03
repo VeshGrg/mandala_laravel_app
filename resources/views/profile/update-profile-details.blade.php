@@ -10,7 +10,8 @@
                 <div class="form-group form-row">
                     <div class="col-md-6">
                         <label for="">Birthday</label>
-                        <input type="date" value="{{ $user->profile->birthday->format('Y-m-d') }}" class="form-control @error('date') is-invalid @enderror" name="birthday">
+                        <input type="date" value="{{ $user->profile->birthday->format('Y-m-d') }}" 
+                            class="form-control @error('date') is-invalid @enderror" name="birthday" required>
                         @error('date')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -20,7 +21,7 @@
 
                     <div class="col-md-6">
                         <label for="">Gender</label>
-                        <select name="gender" class="form-control @error('gender') is-invalid @enderror">
+                        <select name="gender" class="form-control @error('gender') is-invalid @enderror" required>
                             <option value="male" @if($user->profile->getRawOriginal('gender') == 'male') selected @endif>Male</option>
                             <option value="female" @if($user->profile->getRawOriginal('gender') == 'female') selected @endif>Female</option>
                             <option value="other" @if($user->profile->getRawOriginal('gender') == 'other') selected @endif>Other</option>
@@ -35,7 +36,7 @@
 
                 <div class="form-group">
                     <label for="">Bio</label>
-                    <textarea name="bio" cols="30" rows="10" class="form-control @error('bio') is-invalid @enderror" 
+                    <textarea name="bio" cols="30" rows="10" class="form-control @error('bio') is-invalid @enderror" required
                         placeholder="Enter Your Bio Description">{{ $user->profile->bio }}</textarea>
                     @error('bio')
                         <span class="invalid-feedback" role="alert">

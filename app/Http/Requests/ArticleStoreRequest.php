@@ -25,7 +25,7 @@ class ArticleStoreRequest extends FormRequest
     {
         return [
             'title'          => 'required|max:199|min:2',
-            'content'        => 'required|max:500|min:40',
+            'content'        => 'required|min:40',
             'categories'     => 'required',
             'categories.*'   => 'required|exists:categories,id',
             'featured_image' => 'image|mimes:jpeg,jpg,png,gif|nullable'

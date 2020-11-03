@@ -48,7 +48,7 @@
             </h3>
 
             @auth
-                <div class="comment-listing">
+                <div id="comment-listing">
                     @each('partials.comment', $article->comments, 'comment')
                 </div>
 
