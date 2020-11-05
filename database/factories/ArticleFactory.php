@@ -23,7 +23,7 @@ $factory->define(Article::class, function (Faker $faker) {
     return [
         'user_id' => $faker->numberBetween(1, 9),
         'title'   => $faker->sentence,
-        'content' => $faker->paragraph,
+        'content' => $faker->paragraph(10),
         'featured_image' =>  $images[array_rand($images)]
     ];
 });

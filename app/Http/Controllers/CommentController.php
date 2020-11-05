@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Comment;
-use App\Events\NewCommentCreated;
+use App\Notifications\NewComment;
 use App\Http\Requests\CommentStoreRequest;
 
 class CommentController extends Controller
@@ -23,6 +22,10 @@ class CommentController extends Controller
             'user_id'    => auth()->id(),
             'content'    => $request->content
         ]);
+
+        if($comment->user_id !== $comment->article->user_id) {
+            $comment->article->user->notify(new NewComment($comment));
+        }
 
         return response()->json(
             view('partials.comment', compact('comment'))->render()

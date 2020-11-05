@@ -17,7 +17,8 @@ class Article extends Model implements Viewable
     ];
 
     protected $with = [
-        'categories'
+        'categories',
+        'user'
     ];
 
     /**

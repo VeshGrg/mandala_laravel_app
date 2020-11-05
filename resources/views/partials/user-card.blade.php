@@ -38,7 +38,7 @@
                 <dd class="col-sm-9">{{ $user->email }}</dd>
 
                 <dt class="col-sm-3">Birthday:</dt>
-                <dd class="col-sm-9">{{ $user->profile->birthday->format('F d, Y') }}</dd>
+                <dd class="col-sm-9">{{ $user->profile->birthday != null ? $user->profile->birthday->format('F d, Y') : "" }}</dd>
 
                 <dt class="col-sm-3">Gender:</dt>
                 <dd class="col-sm-9">{{ $user->profile->gender }}</dd>

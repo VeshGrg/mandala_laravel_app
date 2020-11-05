@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Comment;
+use App\Notifications\NewComment;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,7 +30,6 @@ Route::get('my-profile', 'ProfileController@index')->name('profile');
 Route::post('my-profile', 'ProfileController@updateMainDetails')->name('profile');
 Route::patch('my-profile', 'ProfileController@updateProfileDetails')->name('profile');
 Route::post('change-password', 'ProfileController@changePassword')->name('change.password');
-
 
 // Route::get("contact",'PageController@contact');
 // Route::post("contact",'PageController@storeContact');

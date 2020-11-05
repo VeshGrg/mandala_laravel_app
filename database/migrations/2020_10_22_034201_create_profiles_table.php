@@ -19,7 +19,7 @@ class CreateProfilesTable extends Migration
             $table->text('bio');
 
             $table->string('birthday');
-            $table->enum('gender', ['male', 'female', 'other']);
+            $table->enum('gender', ['male', 'female', 'other'])->default('male');
             
             $table->timestamps();
 

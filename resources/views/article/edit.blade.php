@@ -78,7 +78,7 @@
             </div>
 
             <div class="col-12 mt-4">
-                <button class="btn btn-outline-success">Submit Article</button>
+                <button class="btn btn-outline-success">Update Article</button>
             </div>
         </div>
   

@@ -148,6 +148,7 @@ h6 {
 }
 
 /** Additional **/
+
 .truncate {
     display: -webkit-box;
     -webkit-line-clamp: 1;
@@ -161,8 +162,6 @@ h6 {
     -webkit-line-clamp: 2;
 }
 
-
-/** Profile Details */
 .profile-img, .featured-image {
     object-fit: cover!important;
 }
@@ -170,4 +169,8 @@ h6 {
 .categories-checkbox {
     height: 100px;
     overflow: auto;
+}
+
+.dropify-wrapper .dropify-message span.file-icon {
+    font-size: 1rem;
 }

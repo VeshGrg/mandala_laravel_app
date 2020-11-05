@@ -45,6 +45,10 @@ class RoleTableSeeder extends Seeder
             $permissions->whereIn('name', [
                 'change profile details',
                 'create comments',
+                'view dashboard',
+                'create articles',
+                'edit articles',
+                'delete articles'
             ])
         );
     }

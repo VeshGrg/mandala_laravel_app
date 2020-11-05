@@ -3,11 +3,6 @@
 
 @section('title','Create Article')
 
-@section('header')
-    <link rel="stylesheet" href="{{ asset('dropify/dist/css/dropify.css') }}" />
-    <script src="{{ asset('dropify/dist/js/dropify.min.js') }}"></script>
-@endsection
-
 @section('content')
 
     @include('partials.goback')
@@ -77,14 +72,4 @@
         </div>
   
     </form>
-@endsection
-
-@section('footer')
-    <script>
-        $(function(){
-            'use strict';
-
-            $('.dropify').dropify();
-        });
-    </script>
 @endsection

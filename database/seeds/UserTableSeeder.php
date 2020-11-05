@@ -26,7 +26,7 @@ class UserTableSeeder extends Seeder
         factory(User::class)
             ->create([
                 'name' => 'Admin',
-                'email' => 'admin@admin.com',views/partials/user-card.blade.php
+                'email' => 'admin@admin.com',
             ])
             ->assignRole('admin');
     }
