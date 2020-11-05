@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+
 class Profile extends Model
 {
     protected $fillable = [
@@ -23,5 +25,10 @@ class Profile extends Model
     public function getGenderAttribute($value)
     {
         return ucfirst($value);
+    }
+
+    public function getBirthdayAttribute($value)
+    {
+        return Carbon::parse($value)->format('Y-m-d');
     }
 }
