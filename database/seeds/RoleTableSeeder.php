@@ -43,6 +43,10 @@ class RoleTableSeeder extends Seeder
 
         $studentRole->syncPermissions(
             $permissions->whereIn('name', [
+                'view dashboard',
+                'create articles',
+                'edit articles',
+                'delete articles',
                 'change profile details',
                 'create comments',
             ])

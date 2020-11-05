@@ -64,7 +64,7 @@ class NewComment extends Notification
                 'url' => route('articles.show', $this->comment->article),
                 'title' => $this->comment->article->title,
             ],
-            'message' => 'Hey, ya just got new comment!',
+            'message' => 'Hey, you just got new comment!',
         ]);
     }
 
