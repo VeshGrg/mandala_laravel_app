@@ -17,7 +17,7 @@
 
             <ul class="list-group mb-3">
 
-                @foreach ($articles as $article)
+                @forelse ($articles as $article)
                     <li class="article-item list-group-item d-flex justify-content-between lh-condensed">
                         <div>
                             <h6 class="my-0">
@@ -42,7 +42,12 @@
                             </form>
                         </div>
                     </li>
-                @endforeach
+                @empty
+                    <li class="list-group-item text-center lh-condensed">
+                        <strong>No Articles! </strong> Start creating new ones.
+                    </li>
+                @endforelse
+
             </ul>
 
             {{ $articles->links() }}

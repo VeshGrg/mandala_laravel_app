@@ -10,7 +10,7 @@
                 <div class="form-group form-row">
                     <div class="col-md-6">
                         <label for="">Birthday</label>
-                        <input type="date" value="{{ $user->profile->birthday->format('Y-m-d') }}" 
+                        <input type="date" value="{{ $user->profile->birthday }}" 
                             class="form-control @error('date') is-invalid @enderror" name="birthday" required>
                         @error('date')
                             <span class="invalid-feedback" role="alert">

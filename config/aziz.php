@@ -14,7 +14,6 @@ return [
 
     'exchange_rate_url' => 'https://api.exchangeratesapi.io/latest',
     'currency_options' => [
-        'base' => 'USD'
+        'base' => 'GBP'
     ]
-    
 ];

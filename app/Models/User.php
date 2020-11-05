@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 use App\Traits\HasProfilePhoto;
+use Carbon\Carbon;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -71,6 +72,11 @@ class User extends Authenticatable
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function getBirthdayAttribute($value)
+    {
+        return Carbon::parse($value)->format('Y-m-d');
     }
 
     public function scopeNotAdmins($query)
