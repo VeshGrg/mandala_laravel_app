@@ -57,7 +57,7 @@
 
                 <div class="card rounded shadow-sm">
                     <div class="card-body">
-                        <label for="" class="card-title font-weight-bold">
+                        <label class="card-title font-weight-bold">
                             Featured Image
                         </label>
 
